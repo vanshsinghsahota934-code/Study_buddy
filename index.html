@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b62">
+<meta name="description" content="Your personal Class 9 CBSE and RIMC study companion.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>Study Buddy</title>
+<style>
+:root{--navy:#173b62;--blue:#28608d;--bg:#f3f7fb;--card:#fff;--ink:#172b3d;--muted:#617487;--line:#dce6ef;--green:#16845b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(135deg,#173b62,#28608d);color:#fff;padding:22px 18px 20px;border-radius:0 0 24px 24px}
+header h1{margin:0;font-size:25px}header p{margin:5px 0 0;color:#dceaf6;font-size:14px}
+main{max-width:760px;margin:auto;padding:14px 14px 90px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.stat{background:#ffffff20;border:1px solid #ffffff30;border-radius:14px;padding:12px}.stat strong{display:block;font-size:24px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{border:0;background:none;color:var(--muted);font-size:11px;padding:6px 4px;min-width:55px}nav button.active{color:var(--blue);font-weight:700}nav span{display:block;font-size:19px;margin-bottom:2px}
+h2{font-size:19px;margin:18px 0 10px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 2px 8px #163b6210}
+.subject{cursor:pointer;text-align:left;color:var(--ink);font:inherit}.subject b{display:block;margin:7px 0 2px}.subject small,.muted{color:var(--muted)}
+button,.btn{cursor:pointer}button.primary,.primary{background:var(--blue);color:#fff;border:0;border-radius:11px;padding:11px 14px;font-weight:650}
+button.secondary{background:#eaf2f9;color:var(--blue);border:1px solid #d3e2ef;border-radius:11px;padding:10px 12px;font-weight:600}
+label{display:block;font-weight:650;font-size:13px;margin:12px 0 5px}input,textarea,select{width:100%;padding:11px;border:1px solid #cbd9e5;border-radius:10px;background:#fff;color:var(--ink);font:inherit}textarea{min-height:130px;resize:vertical}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.task{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.task:last-child{border:0}.task input{width:18px;height:18px}
+.progress{height:8px;background:#e4edf4;border-radius:20px;overflow:hidden;margin:10px 0}.progress i{display:block;height:100%;background:var(--green);width:0}
+.option{display:flex;gap:9px;align-items:center;border:1px solid var(--line);padding:11px;border-radius:10px;margin:8px 0}.option input{width:auto}
+.notice{background:#fff7df;border:1px solid #f0dfa9;padding:11px;border-radius:12px;color:#70551a;font-size:13px}
+.hidden{display:none!important}.pill{display:inline-block;background:#eaf2f9;color:#28608d;border-radius:20px;padding:4px 9px;font-size:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;margin:22px 0}
+@media(min-width:600px){main{padding-top:22px}.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎓 Study Buddy</h1><p>Your personal Class 9 CBSE + RIMC study companion</p>
+  <div class="stats">
+    <div class="stat"><strong id="doneCount">0/4</strong><small>Today's goals</small></div>
+    <div class="stat"><strong id="streakLabel">Let's start!</strong><small>Study progress</small></div>
+  </div>
+</header>
+<main>
+<section id="home" class="page">
+  <h2>Choose a subject</h2>
+  <div class="grid">
+    <button class="card subject" data-subject="Mathematics"><span>➗</span><b>Mathematics</b><small>Formulas & problem solving</small></button>
+    <button class="card subject" data-subject="Science"><span>🧪</span><b>Science</b><small>Concepts & diagrams</small></button>
+    <button class="card subject" data-subject="English"><span>📖</span><b>English</b><small>Grammar & reading</small></button>
+    <button class="card subject" data-subject="Social Science"><span>🌍</span><b>Social Science</b><small>History & Geography</small></button>
+  </div>
+  <h2>Today's study checklist</h2>
+  <div class="card">
+    <div class="task"><input type="checkbox" class="goal" id="g1"><label for="g1" style="margin:0">Maths – practise 10 questions</label></div>
+    <div class="task"><input type="checkbox" class="goal" id="g2"><label for="g2" style="margin:0">Science – revise one topic</label></div>
+    <div class="task"><input type="checkbox" class="goal" id="g3"><label for="g3" style="margin:0">English – grammar practice</label></div>
+    <div class="task"><input type="checkbox" class="goal" id="g4"><label for="g4" style="margin:0">RIMC – aptitude practice</label></div>
+    <div class="progress"><i id="progressBar"></i></div><small class="muted" id="progressText">0% completed</small>
+  </div>
+  <h2>Suggested timetable</h2>
+  <div class="card">
+    <div class="task"><b>4:00–4:45 PM</b><span>Mathematics</span></div>
+    <div class="task"><b>5:00–5:45 PM</b><span>Science</span></div>
+    <div class="task"><b>6:00–6:30 PM</b><span>English</span></div>
+    <div class="task"><b>7:00–7:45 PM</b><span>RIMC practice</span></div>
+    <small class="muted">Edit the times in the Timetable tab to fit your routine.</small>
+  </div>
+</section>
+
+<section id="study" class="page hidden">
+  <h2>📚 Study with your AI teacher</h2>
+  <div class="card">
+    <label for="studySubject">Subject</label><select id="studySubject"><option>Mathematics</option><option>Science</option><option>English</option><option>Social Science</option><option>RIMC Reasoning</option></select>
+    <label for="topic">Chapter or topic</label><input id="topic" placeholder="e.g. Algebraic identities">
+    <label for="level">How should I explain?</label><select id="level"><option>Easy Hinglish, step by step</option><option>Simple English</option><option>Hindi</option><option>Notebook-ready solution</option></select>
+    <button class="primary" id="askTeacher" style="width:100%;margin-top:12px">Prepare my lesson ↗</button>
+    <p class="muted" style="font-size:12px">This opens ChatGPT with your topic and instructions. An internet connection and ChatGPT access are needed for AI explanations.</p>
+  </div>
+  <h2>Quick learning tips</h2><div class="card">1. Read the concept first.<br>2. See one solved example.<br>3. Solve questions yourself.<br>4. Check mistakes and revise.</div>
+</section>
+
+<section id="tests" class="page hidden">
+  <h2>✍️ Quick MCQ practice</h2>
+  <div class="card">
+    <span class="pill">Class 8–9 • Maths</span>
+    <p><b>Q1. What is the LCM of 12, 15 and 20?</b></p>
+    <div id="choices">
+      <label class="option"><input type="radio" name="q1" value="30"> A. 30</label>
+      <label class="option"><input type="radio" name="q1" value="60"> B. 60</label>
+      <label class="option"><input type="radio" name="q1" value="45"> C. 45</label>
+      <label class="option"><input type="radio" name="q1" value="120"> D. 120</label>
+    </div>
+    <button class="primary" id="checkQuiz">Check answer</button>
+    <p id="quizResult" aria-live="polite"></p>
+    <button class="secondary" id="moreQuiz">Practise another question in ChatGPT ↗</button>
+  </div>
+  <div class="notice" style="margin-top:12px">Tip: Try the question before checking the answer. Learn from every mistake.</div>
+</section>
+
+<section id="notes" class="page hidden">
+  <h2>📝 My digital notebook</h2>
+  <div class="card">
+    <label for="noteTitle">Note title</label><input id="noteTitle" placeholder="e.g. Algebra formulas">
+    <label for="noteBody">Your notes</label><textarea id="noteBody" placeholder="Write definitions, formulas and examples..."></textarea>
+    <div class="row" style="margin-top:10px"><button class="primary" id="saveNote">Save note</button><button class="secondary" id="clearNote">Clear</button></div>
+  </div>
+  <h2>Saved notes</h2><div id="notesList" class="card"><p class="muted">No notes saved yet.</p></div>
+</section>
+
+<section id="plan" class="page hidden">
+  <h2>🗓️ Timetable & revision</h2>
+  <div class="card">
+    <label for="planTask">Study task</label><input id="planTask" placeholder="e.g. Revise motion">
+    <div class="row"><div><label for="planDate">Date</label><input id="planDate" type="date"></div><div><label for="planTime">Time</label><input id="planTime" type="time"></div></div>
+    <button class="primary" id="addPlan" style="width:100%;margin-top:12px">Add to my plan</button>
+  </div>
+  <h2>My upcoming tasks</h2><div id="planList" class="card"><p class="muted">No tasks added yet.</p></div>
+  <div class="notice" style="margin-top:12px">Revision idea: review a new topic tomorrow, practise it after 3 days, and test yourself after 7 days. This app does not send automatic notifications yet.</div>
+</section>
+<footer>Study Buddy • Your effort today builds your confidence tomorrow.</footer>
+</main>
+<nav>
+  <button class="active" data-tab="home"><span>🏠</span>Home</button>
+  <button data-tab="study"><span>🧠</span>Study</button>
+  <button data-tab="tests"><span>✅</span>Tests</button>
+  <button data-tab="notes"><span>📝</span>Notes</button>
+  <button data-tab="plan"><span>🗓️</span>Planner</button>
+</nav>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function load(key, fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
+function save(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function showTab(tab){$$('.page').forEach(p=>p.classList.toggle('hidden',p.id!==tab));$$('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));window.scrollTo(0,0)}
+$$('nav button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+$$('.subject').forEach(b=>b.addEventListener('click',()=>{$('#studySubject').value=b.dataset.subject;showTab('study')}));
+const goals=load('sb-goals',{});$$('.goal').forEach(g=>{g.checked=!!goals[g.id];g.addEventListener('change',()=>{goals[g.id]=g.checked;save('sb-goals',goals);updateGoals()})});
+function updateGoals(){let n=$$('.goal:checked').length;$('#doneCount').textContent=n+'/4';$('#progressBar').style.width=(n*25)+'%';$('#progressText').textContent=(n*25)+'% completed';$('#streakLabel').textContent=n===4?'Goal complete!':'Keep going!'}updateGoals();
+$('#askTeacher').onclick=()=>{let s=$('#studySubject').value,t=$('#topic').value.trim()||'important concepts',l=$('#level').value;let q=`Teach me ${t} in ${s} for Class 9 CBSE/RIMC. Explain in ${l}, step by step, with examples, notebook-ready notes and 5 practice questions.`;window.open('https://chatgpt.com/?q='+encodeURIComponent(q),'_blank')};
+$('#checkQuiz').onclick=()=>{let v=$('input[name="q1"]:checked')?.value;$('#quizResult').textContent=!v?'Please select an option.':v==='60'?'✅ Correct! LCM = 60. The smallest common multiple of 12, 15 and 20 is 60.':'❌ Try again. List the multiples of all three numbers and find the smallest common one.'};
+$('#moreQuiz').onclick=()=>window.open('https://chatgpt.com/?q='+encodeURIComponent('Give me a fresh Class 9 CBSE and RIMC mathematics MCQ quiz in Hinglish, one question at a time, with four options.'),'_blank');
+function renderNotes(){let ns=load('sb-notes',[]);$('#notesList').innerHTML=ns.length?ns.map((n,i)=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><b>${escapeHTML(n.title)}</b><p style="white-space:pre-wrap;margin:5px 0">${escapeHTML(n.body)}</p><button class="secondary" data-delnote="${i}">Delete</button></div>`).join(''):'<p class="muted">No notes saved yet.</p>';$$('[data-delnote]').forEach(b=>b.onclick=()=>{let a=load('sb-notes',[]);a.splice(+b.dataset.delnote,1);save('sb-notes',a);renderNotes()})}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+$('#saveNote').onclick=()=>{let title=$('#noteTitle').value.trim(),body=$('#noteBody').value.trim();if(!title||!body){alert('Please enter a title and your notes.');return}let ns=load('sb-notes',[]);ns.unshift({title,body});save('sb-notes',ns);$('#noteTitle').value='';$('#noteBody').value='';renderNotes()};$('#clearNote').onclick=()=>{$('#noteTitle').value='';$('#noteBody').value=''};renderNotes();
+function renderPlans(){let ps=load('sb-plans',[]);$('#planList').innerHTML=ps.length?ps.map((p,i)=>`<div style="padding:9px 0;border-bottom:1px solid var(--line)"><b>${escapeHTML(p.task)}</b><p class="muted" style="margin:4px 0">${escapeHTML(p.date)} ${escapeHTML(p.time)}</p><button class="secondary" data-delplan="${i}">Remove</button></div>`).join(''):'<p class="muted">No tasks added yet.</p>';$$('[data-delplan]').forEach(b=>b.onclick=()=>{let a=load('sb-plans',[]);a.splice(+b.dataset.delplan,1);save('sb-plans',a);renderPlans()})}
+$('#addPlan').onclick=()=>{let task=$('#planTask').value.trim(),date=$('#planDate').value,time=$('#planTime').value;if(!task||!date){alert('Please enter a task and date.');return}let ps=load('sb-plans',[]);ps.push({task,date,time});ps.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));save('sb-plans',ps);$('#planTask').value='';renderPlans()};renderPlans();
+if('serviceWorker' in navigator && location.protocol!=='file:'){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+</script>
+</body></html>
